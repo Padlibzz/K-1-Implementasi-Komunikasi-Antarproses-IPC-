@@ -1,0 +1,61 @@
+=== HASIL PENGUJIAN IPC PESANAN <-> STOK ===
+Tanggal : 2026-10-12 14:08:45
+Mesin   : Linux 6.18.44-fc-v114
+
+---------- Mode: socket ----------
+[LULUS] 1. Cek stok awal kopi (50)
+       perintah : ./pesanan socket cek kopi
+       keluaran : OK stok kopi = 50 (socket, 0.499941 ms)
+[LULUS] 2. Pesan kopi 5 (sisa 45)
+       perintah : ./pesanan socket pesan kopi 5
+       keluaran : OK pesanan kopi x5 diterima, sisa stok 45 (socket, 0.745731 ms)
+[LULUS] 3. Stok tidak cukup (kopi 100)
+       perintah : ./pesanan socket pesan kopi 100
+       keluaran : GAGAL stok tidak cukup (socket, 1.30835 ms)
+[LULUS] 4. Produk tidak ada (sirup)
+       perintah : ./pesanan socket pesan sirup 1
+       keluaran : GAGAL produk tidak ditemukan (socket, 0.496455 ms)
+[LULUS] 5. Jumlah tidak valid (0)
+       perintah : ./pesanan socket pesan kopi 0
+       keluaran : GAGAL jumlah tidak valid (socket, 0.625953 ms)
+[LULUS] 6. Tambah stok gula 10 (jadi 30)
+       perintah : ./pesanan socket tambah gula 10
+       keluaran : OK stok gula menjadi 30 (socket, 0.51375 ms)
+[....] 7. Konkurensi: 40 pesanan teh x1 serentak (stok 30)
+[LULUS] 7. hasil: berhasil=30, ditolak=10 (harapan 30 dan 10)
+[LULUS] 8. Stok teh akhir harus 0 (tidak oversell)
+       perintah : ./pesanan socket cek teh
+       keluaran : OK stok teh = 0 (socket, 0.379701 ms)
+[LULUS] 9. Layanan stok mati -> pesanan gagal rapi
+       perintah : ./pesanan socket pesan kopi 1
+       keluaran : GAGAL tidak bisa terhubung ke layanan stok (socket, 0.113056 ms)
+
+---------- Mode: xmlrpc ----------
+[LULUS] 1. Cek stok awal kopi (50)
+       perintah : ./pesanan xmlrpc cek kopi
+       keluaran : OK stok kopi = 50 (xmlrpc, 0.690026 ms)
+[LULUS] 2. Pesan kopi 5 (sisa 45)
+       perintah : ./pesanan xmlrpc pesan kopi 5
+       keluaran : OK pesanan kopi x5 diterima, sisa stok 45 (xmlrpc, 0.842674 ms)
+[LULUS] 3. Stok tidak cukup (kopi 100)
+       perintah : ./pesanan xmlrpc pesan kopi 100
+       keluaran : GAGAL stok tidak cukup (xmlrpc, 0.794687 ms)
+[LULUS] 4. Produk tidak ada (sirup)
+       perintah : ./pesanan xmlrpc pesan sirup 1
+       keluaran : GAGAL produk tidak ditemukan (xmlrpc, 0.715069 ms)
+[LULUS] 5. Jumlah tidak valid (0)
+       perintah : ./pesanan xmlrpc pesan kopi 0
+       keluaran : GAGAL jumlah tidak valid (xmlrpc, 0.710767 ms)
+[LULUS] 6. Tambah stok gula 10 (jadi 30)
+       perintah : ./pesanan xmlrpc tambah gula 10
+       keluaran : OK stok gula menjadi 30 (xmlrpc, 0.413334 ms)
+[....] 7. Konkurensi: 40 pesanan teh x1 serentak (stok 30)
+[LULUS] 7. hasil: berhasil=30, ditolak=10 (harapan 30 dan 10)
+[LULUS] 8. Stok teh akhir harus 0 (tidak oversell)
+       perintah : ./pesanan xmlrpc cek teh
+       keluaran : OK stok teh = 0 (xmlrpc, 0.435744 ms)
+[LULUS] 9. Layanan stok mati -> pesanan gagal rapi
+       perintah : ./pesanan xmlrpc pesan kopi 1
+       keluaran : GAGAL tidak bisa terhubung ke layanan stok (xmlrpc, 0.106906 ms)
+
+RINGKASAN: 18 lulus, 0 gagal
